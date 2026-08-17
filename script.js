@@ -32,6 +32,8 @@ let operator;
 
 let resetDisplay = false;
 
+let canUseDot = false;
+
 // func operate takes operator and two operands and calls one of the above func with the operands
 function operate(firstOperand, operator, secondOperand) {
     switch(operator) {
@@ -50,22 +52,49 @@ function operate(firstOperand, operator, secondOperand) {
     }
 }
 
+const dotButton = document.querySelector("#dot");
+
+dotButton.addEventListener("click", () => {
+    if(firstOperand === undefined) {
+        if(displayText.textContent === '') {
+            return;
+        } else if(canUseDot === true){
+            displayText.textContent += '.';
+            canUseDot = false;
+            return;
+        }
+    }
+    if(firstOperand !== undefined && secondOperand === undefined) {
+        if(displayText.textContent === '') {
+            return;
+        } else if(canUseDot === true) {
+            displayText.textContent += '.';
+            canUseDot = false;
+            return;
+        }
+    }
+})
+
 // func that adds eventListener to buttons that adds the value of the button pressed to the display-text div
 const digitButtons = document.querySelectorAll(".digit");
 const displayText = document.querySelector("#display-text")
 
 digitButtons.forEach(btn => {
     btn.addEventListener("click", () => {
+        if(displayText.textContent === "") {
+            canUseDot = true;
+        }
         if(resetDisplay) {
             displayText.textContent = btn.textContent;
             resetDisplay = false;
+            canUseDot = true;
         } else {
             displayText.textContent += btn.textContent;
         }
         if(operator === "=") {
             firstOperand = undefined;
             operator = undefined;
-        } 
+        }
     })
 })
 
@@ -88,6 +117,7 @@ operatorButtons.forEach(btn => {
                 firstOperand = displayText.textContent;
                 operator = btn.textContent;
                 resetDisplay = true;
+                canUseDot = false;
                 console.log("Display text contains first operand: " + firstOperand);
                 console.log("Current operator: " + btn.textContent);
                 console.log("First operand is now set to: " + firstOperand);
@@ -131,4 +161,6 @@ function clearDisplay() {
     resetDisplay = false;
 
     displayText.textContent = "";
+
+    canUseDot = false;
 } 
