@@ -75,6 +75,20 @@ dotButton.addEventListener("click", () => {
     }
 })
 
+const delButton = document.querySelector("#delete");
+
+delButton.addEventListener("click", () => {
+    
+    let str = displayText.textContent;
+    let str2 = str.substring(0, str.length - 1);
+    displayText.textContent = str2;
+
+    if(resetDisplay) {
+        firstOperand = str2;
+        resetDisplay = false;
+    }
+})
+
 // func that adds eventListener to buttons that adds the value of the button pressed to the display-text div
 const digitButtons = document.querySelectorAll(".digit");
 const displayText = document.querySelector("#display-text")
