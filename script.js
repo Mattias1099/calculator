@@ -42,3 +42,14 @@ function operate(firstOperand, operator, secondOperand) {
             break;
     }
 }
+
+// func that adds eventListener to buttons that adds the value of the button pressed to the display-text div
+
+const digitButtons = document.querySelectorAll(".digit");
+const displayText = document.querySelector("#display-text")
+
+digitButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        displayText.textContent += btn.textContent;
+    })
+})
