@@ -23,9 +23,9 @@ body {
     height: 100px;
     width: 500px;
     background-color: lightblue;
-    direction: rtl;
     display: flex;
     align-items: center;
+    justify-content: end;
     font-size: 32px;
     border: 1px solid black;
     margin-bottom: 20px;
