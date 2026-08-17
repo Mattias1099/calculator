@@ -1,29 +1,34 @@
-// function for add
 function add(firstOperand, secondOperand) {
-    return Number(firstOperand) + Number(secondOperand);
+    return roundNumber((Number(firstOperand) + Number(secondOperand)).toString());
 }
 
-// function for subtract
 function subtract(firstOperand, secondOperand) {
-    return firstOperand - secondOperand;
+    return roundNumber((firstOperand - secondOperand).toString());
 }
 
-// function for multiply
 function multiply(firstOperand, secondOperand) {
-    return firstOperand * secondOperand;
+    return roundNumber((firstOperand * secondOperand).toString());
 }
 
-// function for divide
 function divide(frstOperand, scndOperand) {
     if(secondOperand === '0') {
-        console.log(typeof secondOperand);
         resetDisplay = true;
         return "Can't divide by zero";
     }
-    return frstOperand / scndOperand;
+    return roundNumber((frstOperand / scndOperand).toString());
 }
 
-// three variables, firstOperand, operator, secondOperand
+function roundNumber(number) {
+    if(!number.includes(".")) {
+        return number;
+    } 
+    let numberAsArr = number.split(".");
+    let numberInt = numberAsArr.at(0);
+    let numberDecimal = numberAsArr.at(1);
+
+    return numberDecimal.length > 5 ? numberInt + "." + numberDecimal.substring(0, 5) : numberInt + "." + numberDecimal;
+}
+
 let firstOperand;
 
 let secondOperand;
@@ -32,9 +37,6 @@ let operator;
 
 let resetDisplay = false;
 
-let canUseDot = false;
-
-// func operate takes operator and two operands and calls one of the above func with the operands
 function operate(firstOperand, operator, secondOperand) {
     switch(operator) {
         case "+":
@@ -55,30 +57,19 @@ function operate(firstOperand, operator, secondOperand) {
 const dotButton = document.querySelector("#dot");
 
 dotButton.addEventListener("click", () => {
-    if(firstOperand === undefined) {
-        if(displayText.textContent === '') {
-            return;
-        } else if(canUseDot === true){
-            displayText.textContent += '.';
-            canUseDot = false;
-            return;
-        }
-    }
-    if(firstOperand !== undefined && secondOperand === undefined) {
-        if(displayText.textContent === '') {
-            return;
-        } else if(canUseDot === true) {
-            displayText.textContent += '.';
-            canUseDot = false;
-            return;
-        }
+    if(displayText.textContent === '') {
+        return;
+    } else if(displayText.textContent.includes(".")) {
+        return;
+    } else {
+        displayText.textContent += ".";
+        resetDisplay = false;
     }
 })
 
 const delButton = document.querySelector("#delete");
 
 delButton.addEventListener("click", () => {
-    
     let str = displayText.textContent;
     let str2 = str.substring(0, str.length - 1);
     displayText.textContent = str2;
@@ -89,19 +80,14 @@ delButton.addEventListener("click", () => {
     }
 })
 
-// func that adds eventListener to buttons that adds the value of the button pressed to the display-text div
 const digitButtons = document.querySelectorAll(".digit");
 const displayText = document.querySelector("#display-text")
 
 digitButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        if(displayText.textContent === "") {
-            canUseDot = true;
-        }
         if(resetDisplay) {
             displayText.textContent = btn.textContent;
             resetDisplay = false;
-            canUseDot = true;
         } else {
             displayText.textContent += btn.textContent;
         }
@@ -117,29 +103,16 @@ const operatorButtons = document.querySelectorAll(".operator");
 operatorButtons.forEach(btn => {
     btn.addEventListener("click", () => {
         if(firstOperand === undefined) {
-            console.log("First operand is undefined");
-            if(btn.textContent === "=") {
-                console.log("button is equals button, return")
-                return;
-            }
-            if(displayText.textContent === '') {
-                console.log("Display text is empty");
-                return;
-            } else if(displayText.textContent === "Can't divide by zero") {
+            if(btn.textContent === "=" || displayText.textContent === '' || displayText.textContent === "Can't divide by zero") {
                 return;
             } else {
                 firstOperand = displayText.textContent;
                 operator = btn.textContent;
                 resetDisplay = true;
-                canUseDot = false;
-                console.log("Display text contains first operand: " + firstOperand);
-                console.log("Current operator: " + btn.textContent);
-                console.log("First operand is now set to: " + firstOperand);
             }
         } else if(firstOperand !== undefined && secondOperand === undefined) {
             if(resetDisplay === true) {
                 operator = btn.textContent;
-                console.log("Current operator: " + btn.textContent);
             } else {
                 secondOperand = displayText.textContent;
                 let result = operate(firstOperand, operator, secondOperand);
@@ -147,13 +120,11 @@ operatorButtons.forEach(btn => {
                 if(result === "Can't divide by zero") {
                     firstOperand = undefined;
                     secondOperand = undefined;
-                    operator = "undefined";
+                    operator = undefined;
                     return;
                 }
                 firstOperand = result;
-                console.log(firstOperand);
                 operator = btn.textContent;
-                console.log(operator);
                 secondOperand = undefined;
                 resetDisplay = true;
             }
@@ -167,14 +138,8 @@ clearButton.addEventListener("click", () => clearDisplay());
 
 function clearDisplay() {
     firstOperand = undefined;
-
     secondOperand = undefined;
-
     operator = undefined;
-
     resetDisplay = false;
-
     displayText.textContent = "";
-
-    canUseDot = false;
 } 
