@@ -1,0 +1,43 @@
+html {
+  box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+    height: 750px;
+    width: 500px;
+    padding: 20px;
+    background-color: lightgray;
+}
+
+#display {
+    height: 100px;
+    width: 500px;
+    background-color: lightblue;
+    direction: rtl;
+    display: flex;
+    align-items: center;
+    font-size: 32px;
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+
+button {
+    height: 100px;
+    width: 100px;
+    font-size: 32px;
+    margin: 4px;
+}
+
+.row {
+    margin: 4px;
+}
