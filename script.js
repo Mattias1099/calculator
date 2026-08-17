@@ -19,6 +19,11 @@ function divide(firstOperand, secondOperand) {
 }
 
 // three variables, firstOperand, operator, secondOperand
+let firstOperand;
+
+let secondOperand;
+
+let operator;
 
 // func operate takes operator and two operands and calls one of the above func with the operands
 
